@@ -1,3 +1,5 @@
+export type Gift = 'airpods' | 'smart_watch' | 'iphone_17_pro_max';
+
 export interface CSVRow {
   [key: string]: string;
 }
@@ -12,6 +14,9 @@ export interface LotteryState {
   isSpinning: boolean;
   showResult: boolean;
   isEnded: boolean;
+  winnersByGift: Partial<Record<Gift, number | 'IPHONE_FIXED'>>;
+  currentGift: Gift | null;
+  fixedIphoneReservedIndex: number | null;
 }
 
 export type LotteryAction = 
@@ -23,4 +28,8 @@ export type LotteryAction =
   | { type: 'SKIP_WINNER' }
   | { type: 'END_LOTTERY' }
   | { type: 'RESET' }
-  | { type: 'HIDE_RESULT' };
+  | { type: 'HIDE_RESULT' }
+  | { type: 'SET_GIFT'; payload: Gift | null }
+  | { type: 'STOP_SPINNING_FOR_GIFT'; payload: { gift: Gift; index?: number } }
+  | { type: 'SELECT_WINNER_FOR_GIFT'; payload: { gift: Gift } }
+  | { type: 'SKIP_WINNER_FOR_GIFT'; payload: { gift: Gift } };

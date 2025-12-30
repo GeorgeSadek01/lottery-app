@@ -2,11 +2,12 @@
 
 import React, { useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
+import { Gift } from '@/lib/types';
 
 interface WinnerDisplayProps {
   winner: string;
   winnerData?: { [key: string]: string };
-  prizeColumn?: string;
+  gift: Gift;
   onSelect: () => void;
   onSkip: () => void;
   onEnd: () => void;
@@ -15,7 +16,7 @@ interface WinnerDisplayProps {
 export default function WinnerDisplay({
   winner,
   winnerData,
-  prizeColumn,
+  gift,
   onSelect,
   onSkip,
   onEnd,
@@ -119,69 +120,69 @@ export default function WinnerDisplay({
     };
   }, []);
 
+  const giftLabels: Record<Gift, { emoji: string; label: string }> = {
+    airpods: { emoji: '🎧', label: 'AirPods' },
+    smart_watch: { emoji: '⌚', label: 'Smart Watch' },
+    iphone_17_pro_max: { emoji: '📱', label: 'iPhone 17 Pro Max' },
+  };
+
   return (
     <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="relative">
+      <div className="relative w-full max-w-xl">
         {/* Glowing background */}
-        <div className="absolute inset-0 bg-white/20 rounded-3xl blur-xl opacity-50 animate-pulse" />
+        <div className="absolute inset-0 bg-white/20 rounded-2xl blur-xl opacity-50 animate-pulse" />
         
-        {/* Main card */}
-        <div className="relative bg-zinc-900 rounded-3xl p-8 md:p-12 max-w-2xl shadow-2xl border-4 border-white">
+        {/* Main card - wider for better readability */}
+        <div className="relative bg-zinc-900 rounded-2xl p-8 shadow-2xl border-4 border-white">
           {/* Trophy */}
-          <div className="text-8xl text-center mb-6 animate-bounce">
+          <div className="text-7xl text-center mb-4 animate-bounce">
             🏆
           </div>
           
           {/* Winner label */}
-          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-4 tracking-wider">
+          <h2 className="text-2xl font-bold text-white text-center mb-4 tracking-wider">
             ✨ الفائز ✨
           </h2>
           
           {/* Winner name */}
-          <div className={`bg-white rounded-2xl p-6 shadow-inner ${
-            winnerData && prizeColumn && prizeColumn !== '_skip_' && winnerData[prizeColumn] 
-              ? 'mb-4' 
-              : 'mb-8'
-          }`}>
-            <p className="text-3xl md:text-5xl font-bold text-black text-center break-words">
+          <div className="bg-white rounded-xl p-6 shadow-inner mb-4">
+            <p className="text-3xl font-bold text-black text-center break-words">
               {winner}
             </p>
           </div>
           
-          {/* Prize display - iPhone model */}
-          {winnerData && prizeColumn && prizeColumn !== '_skip_' && winnerData[prizeColumn] && (
-            <div className="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl p-4 mb-8 shadow-lg">
-              <p className="text-sm text-white/80 text-center mb-1">🎁 الجائزة</p>
-              <p className="text-2xl md:text-3xl font-bold text-white text-center break-words">
-                📱 {winnerData[prizeColumn]}
-              </p>
-            </div>
-          )}
+          {/* Prize display - Gift label */}
+          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl p-4 mb-6 shadow-lg">
+            <p className="text-sm text-white/80 text-center mb-1">🎁 الجائزة</p>
+            <p className="text-2xl font-bold text-white text-center break-words">
+              {giftLabels[gift].emoji} {giftLabels[gift].label}
+            </p>
+          </div>
           
           {/* Action buttons */}
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
+          <div className="flex flex-col gap-3 justify-center">
             <button
               onClick={onSelect}
-              className="px-8 py-4 bg-green-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+              className="px-8 py-4 bg-green-600 text-white font-bold text-lg rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
             >
               <span>تم الاختيار</span>
-              <span className="text-2xl">✅</span>
+              <span className="text-xl">✅</span>
             </button>
             
             <button
               onClick={onSkip}
-              className="px-8 py-4 bg-yellow-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-yellow-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+              className="px-8 py-4 bg-yellow-600 text-white font-bold text-lg rounded-full shadow-lg hover:bg-yellow-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
             >
               <span>تخطي</span>
-              <span className="text-2xl">⏭️</span>
+              <span className="text-xl">⏭️</span>
             </button>
             
             <button
               onClick={onEnd}
-              className="px-8 py-4 bg-red-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+              className="px-8 py-4 bg-red-600 text-white font-bold text-lg rounded-full shadow-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
             >
               <span>إنهاء</span>
-              <span className="text-2xl">🏁</span>
+              <span className="text-xl">🏁</span>
             </button>
           </div>
         </div>

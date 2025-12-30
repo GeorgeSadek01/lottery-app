@@ -8,6 +8,7 @@ interface SpinningWheelProps {
   onStop: (selectedIndex: number) => void;
   availableIndices: number[];
   spinPattern?: 'normal' | 'accelerate' | 'bounce' | 'random';
+  spinDuration?: number; // duration in seconds
 }
 
 export default function SpinningWheel({
@@ -16,6 +17,7 @@ export default function SpinningWheel({
   onStop,
   availableIndices,
   spinPattern = 'random',
+  spinDuration = 3,
 }: SpinningWheelProps) {
   const [displayIndex, setDisplayIndex] = useState(0);
   const [isStopping, setIsStopping] = useState(false);
@@ -45,23 +47,23 @@ export default function SpinningWheel({
 
     clearCurrentInterval();
 
-    // Different slowdown patterns
+    // Faster slowdown patterns
     const slowDown = () => {
       const pattern = currentPatternRef.current;
       
       if (pattern === 'bounce') {
         // Bounce pattern - speed varies
-        speedRef.current += Math.random() > 0.5 ? 60 : 20;
+        speedRef.current += Math.random() > 0.5 ? 40 : 15;
       } else if (pattern === 'accelerate') {
         // Accelerate then slow - exponential slowdown
-        speedRef.current = speedRef.current * 1.15;
+        speedRef.current = speedRef.current * 1.2;
       } else {
         // Normal linear slowdown
-        speedRef.current += 40;
+        speedRef.current += 30;
       }
 
-      if (speedRef.current >= 500) {
-        // Final stop
+      if (speedRef.current >= 350) {
+        // Final stop - faster completion
         clearCurrentInterval();
         setDisplayIndex(winnerIndex);
         setTimeout(() => {
@@ -70,7 +72,7 @@ export default function SpinningWheel({
           hasStartedRef.current = false;
           speedRef.current = 50;
           onStop(winnerIndex);
-        }, 300);
+        }, 200);
       } else {
         intervalRef.current = setInterval(() => {
           setDisplayIndex((prev) => (prev + 1) % items.length);
@@ -78,7 +80,7 @@ export default function SpinningWheel({
         setTimeout(() => {
           clearCurrentInterval();
           slowDown();
-        }, speedRef.current * 3);
+        }, speedRef.current * 2);
       }
     };
 
@@ -123,6 +125,13 @@ export default function SpinningWheel({
           }
         }, 200);
       }
+
+      // Auto-stop after spinDuration seconds
+      const autoStopTimeout = setTimeout(() => {
+        stopWheel();
+      }, spinDuration * 1000);
+
+      return () => clearTimeout(autoStopTimeout);
     }
 
     if (!isSpinning && !isStoppingRef.current) {
@@ -134,7 +143,7 @@ export default function SpinningWheel({
         clearCurrentInterval();
       }
     };
-  }, [isSpinning, items.length, clearCurrentInterval, spinPattern, patterns]);
+  }, [isSpinning, items.length, clearCurrentInterval, spinPattern, patterns, spinDuration, stopWheel]);
 
   const getVisibleItems = () => {
     const visibleCount = 7;
