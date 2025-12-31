@@ -158,8 +158,8 @@ export default function Home() {
       if (indexOrMarker === 'IPHONE_FIXED') {
         history.push({
           index: null,
-          data: { 'الاسم الكامل': 'يوسف محمد عبداللطيف' },
-          displayValue: 'يوسف محمد عبداللطيف',
+          data: { 'الاسم الكامل': 'أحمد محمد يوسف' },
+          displayValue: 'أحمد محمد يوسف',
           gift: gift as Gift,
         });
       } else if (typeof indexOrMarker === 'number') {
@@ -176,13 +176,13 @@ export default function Home() {
   }, [state.winnersByGift, state.csvData, state.displayColumn]);
 
   const currentWinnerName = state.currentGift === 'iphone_17_pro_max'
-    ? 'يوسف محمد عبداللطيف'
+    ? 'أحمد محمد يوسف'
     : state.currentWinner !== null
     ? state.csvData[state.currentWinner]?.[state.displayColumn] || ''
     : '';
 
   const currentWinnerData = state.currentGift === 'iphone_17_pro_max'
-    ? { 'الاسم الكامل': 'يوسف محمد عبداللطيف' }
+    ? { 'الاسم الكامل': 'أحمد محمد يوسف' }
     : state.currentWinner !== null
     ? state.csvData[state.currentWinner]
     : undefined;

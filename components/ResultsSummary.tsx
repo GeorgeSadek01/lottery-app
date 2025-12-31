@@ -41,7 +41,7 @@ export default function ResultsSummary({
       if (indexOrMarker === 'IPHONE_FIXED') {
         winnerRows.push([
           giftLabel,
-          'يوسف محمد عبداللطيف',
+          'أحمد محمد يوسف',
           ...headers.map(() => ''),
         ].join(','));
       } else if (typeof indexOrMarker === 'number') {
@@ -77,7 +77,7 @@ export default function ResultsSummary({
       let winnerName = '';
       
       if (indexOrMarker === 'IPHONE_FIXED') {
-        winnerName = 'يوسف محمد عبداللطيف';
+        winnerName = 'أحمد محمد يوسف';
       } else if (typeof indexOrMarker === 'number') {
         winnerName = csvData[indexOrMarker]?.[displayColumn] || '';
       }
@@ -149,7 +149,7 @@ export default function ResultsSummary({
               let winnerName = '';
               
               if (indexOrMarker === 'IPHONE_FIXED') {
-                winnerName = 'يوسف محمد عبداللطيف';
+                winnerName = 'أحمد محمد يوسف';
               } else if (typeof indexOrMarker === 'number') {
                 winnerName = csvData[indexOrMarker]?.[displayColumn] || '';
               }

@@ -3,7 +3,7 @@
 import { useReducer, useCallback } from 'react';
 import { LotteryState, LotteryAction, CSVRow, Gift } from './types';
 
-const FIXED_IPHONE_WINNER = 'يوسف محمد عبداللطيف';
+const FIXED_IPHONE_WINNER = 'أحمد محمد يوسف';
 
 const initialState: LotteryState = {
   csvData: [],
